@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineDirector AI — AI-Powered Screenplay Production Studio</title>
+  <meta name="description" content="Transform a one-line movie idea into a comprehensive Hollywood screenplay, three-act architecture, character dossiers, director shot lists, Midjourney art prompts, Runway motion prompts, and sound design.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans, Cinzel, Courier Prime -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+  <div class="app-layout" id="appLayout">
+    
+    <!-- MOBILE TOP BAR -->
+    <header class="mobile-header" id="mobileHeader">
+      <button class="icon-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Drawer">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <div class="brand-mini">
+        <span class="gold-icon">🎬</span>
+        <span class="brand-text">CineDirector <span class="gold-tag">AI</span></span>
+      </div>
+      <button class="btn btn-gold btn-sm" id="mobileNewBtn">+ New</button>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Brand & Clapperboard Header -->
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-emblem">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+          </div>
+          <div class="brand-details">
+            <span class="brand-title">CineDirector <span class="gold-accent">AI</span></span>
+            <span class="brand-subtitle">Production Studio</span>
+          </div>
+        </div>
+        <button class="icon-btn sidebar-collapse-btn" id="sidebarCollapseBtn" title="Collapse Sidebar" aria-label="Collapse Sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg>
+        </button>
+      </div>
+
+      <!-- Quick Action: New Screenplay -->
+      <div class="sidebar-cta-wrap">
+        <button class="btn btn-gold btn-block" id="btnSidebarNewScript">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>New Screenplay</span>
+        </button>
+      </div>
+
+      <!-- Primary Navigation Links -->
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <div class="nav-group-title">WORKSPACE</div>
+        <button class="nav-item active" data-view="dashboard" id="navDashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span class="nav-label">Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="projects" id="navProjects">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          <span class="nav-label">My Projects</span>
+          <span class="badge-count" id="projectCountBadge">1</span>
+        </button>
+
+        <div class="nav-group-title">ACTIVE PRODUCTION BIBLE</div>
+        <button class="nav-item" data-view="studio" data-tab="overview" id="navStudio">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span class="nav-label">Screenplay Studio</span>
+        </button>
+        <button class="nav-item sub-item" data-view="studio" data-tab="structure" id="navStructure">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+          <span class="nav-label">Three-Act Structure</span>
+        </button>
+        <button class="nav-item sub-item" data-view="studio" data-tab="characters" id="navCharacters">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span class="nav-label">Character Bible</span>
+        </button>
+        <button class="nav-item sub-item" data-view="studio" data-tab="scenes" id="navScenes">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span class="nav-label">Screenplay Scenes</span>
+        </button>
+        <button class="nav-item sub-item" data-view="studio" data-tab="shots" id="navShots">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+          <span class="nav-label">Director's Shot Lists</span>
+        </button>
+        <button class="nav-item sub-item" data-view="studio" data-tab="prompts" id="navPrompts">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          <span class="nav-label">AI Visual Prompts</span>
+        </button>
+        <button class="nav-item sub-item" data-view="studio" data-tab="audio" id="navAudio">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          <span class="nav-label">Sound & Audio</span>
+        </button>
+
+        <div class="nav-group-title">SETTINGS</div>
+        <button class="nav-item" data-view="settings" id="navSettings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span class="nav-label">Studio Settings</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer Status -->
+      <div class="sidebar-footer">
+        <div class="api-status-badge" id="sidebarApiStatus">
+          <span class="status-indicator-dot" id="statusDot"></span>
+          <span class="status-text" id="statusText">Checking Engine...</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- BACKDROP FOR MOBILE DRAWER -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- MAIN APP CONTENT AREA -->
+    <main class="main-content" id="mainContent">
+      
+      <!-- TOP NAVIGATION BAR -->
+      <header class="topbar" id="topbar">
+        <div class="topbar-left">
+          <div class="project-breadcrumb">
+            <span class="breadcrumb-prefix">Current Script:</span>
+            <button class="breadcrumb-title-btn" id="topbarProjectTitle" title="Click to Rename">Dream Echoes</button>
+          </div>
+          <div class="save-status-pill" id="saveStatusPill">
+            <span class="save-dot saved"></span>
+            <span class="save-label" id="saveStatusLabel">Saved</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="btn btn-secondary btn-sm" id="btnLoadSample" title="Load Complete Sample Project">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>Load Sample Bible</span>
+          </button>
+          <button class="btn btn-secondary btn-sm" id="btnExportTxt" title="Export Screenplay and Bible as Formatted TXT">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>Export TXT</span>
+          </button>
+          <button class="btn btn-gold btn-sm" id="btnQuickSave" title="Save Project Changes">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            <span>Quick Save</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW CONTAINER -->
+      <div class="view-viewport">
+        
+        <!-- ============================================== -->
+        <!-- VIEW 1: DASHBOARD / SCREENPLAY CREATOR        -->
+        <!-- ============================================== -->
+        <section class="view-pane active" id="viewDashboard">
+          <!-- Cinematic Hero Banner -->
+          <div class="hero-panel">
+            <div class="hero-glow"></div>
+            <div class="hero-content">
+              <div class="film-tagline-badge">
+                <span class="gold-sparkle">✦</span> AI-POWERED SCREENPLAY PRODUCTION STUDIO
+              </div>
+              <h1 class="hero-headline">Every great film begins with an idea.</h1>
+              <p class="hero-subtext">
+                Transform a one-line movie concept into an industry-grade screenplay, three-act architecture, 
+                deep character dossiers, director shot lists, Midjourney art prompts, Runway motion prompts, and spatial soundscapes.
+              </p>
+            </div>
+          </div>
+
+          <!-- Screenplay Generator Box -->
+          <div class="studio-card creation-card">
+            <div class="card-header-line">
+              <div class="card-title-group">
+                <span class="gold-icon-box">💡</span>
+                <div>
+                  <h2 class="card-title">Movie Premise & Core Vision</h2>
+                  <p class="card-desc">Type a premise or select a curated cinema prompt below to ignite the AI director engine.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Premise Text Area -->
+            <div class="input-group">
+              <label for="inputMovieIdea" class="input-label">
+                <span>The Story Premise</span>
+                <span class="char-count" id="ideaCharCount">0 / 2000</span>
+              </label>
+              <textarea 
+                id="inputMovieIdea" 
+                class="cinema-textarea" 
+                rows="4" 
+                maxlength="2000"
+                placeholder="Example: A young woman discovers that every dream she has predicts a real-world catastrophe exactly 24 hours before it happens..."></textarea>
+            </div>
+
+            <!-- Curated Example Idea Chips -->
+            <div class="example-chips-wrap">
+              <span class="chips-title">Cinematic Inspiration:</span>
+              <div class="chips-grid" id="exampleChipsGrid">
+                <button type="button" class="idea-chip" data-idea="A young woman discovers that every dream she has predicts an event exactly 24 hours before it happens." data-genre="Psychological Sci-Fi" data-tone="Atmospheric, Haunting & Claustrophobic">
+                  🔮 Dream Forecaster
+                </button>
+                <button type="button" class="idea-chip" data-idea="A cynical noir detective discovers he can hear the psychic memories of abandoned objects in a flooded dystopian metropolis." data-genre="Neo-Noir / Cyberpunk" data-tone="Gritty, Rain-Drenched & Melancholic">
+                  📻 Memory Detective
+                </button>
+                <button type="button" class="idea-chip" data-idea="A team of theoretical physics thieves attempts to steal a revolutionary formula before it can be conceived by its inventor." data-genre="Sci-Fi Thriller" data-tone="High-Tension, Intricate & Paced">
+                  ⏳ Quantum Heist
+                </button>
+                <button type="button" class="idea-chip" data-idea="The solitary keeper of a deep-space beacon intercepts a desperate distress signal originating from an extinct alien civilization." data-genre="Hard Sci-Fi / Drama" data-tone="Cosmic Dread, Poetic & Contemplative">
+                  🪐 Orbital Lighthouse
+                </button>
+              </div>
+            </div>
+
+            <!-- Creative Control Parameters -->
+            <div class="creative-controls-grid">
+              <!-- Genre -->
+              <div class="form-field">
+                <label for="selectGenre" class="field-label">Genre</label>
+                <select id="selectGenre" class="cinema-select">
+                  <option value="Sci-Fi / Thriller">Sci-Fi / Thriller</option>
+                  <option value="Neo-Noir">Neo-Noir</option>
+                  <option value="Psychological Drama">Psychological Drama</option>
+                  <option value="Cyberpunk">Cyberpunk</option>
+                  <option value="Supernatural Mystery">Supernatural Mystery</option>
+                  <option value="Dark Fantasy">Dark Fantasy</option>
+                  <option value="Dystopian Epic">Dystopian Epic</option>
+                  <option value="Crime Heist">Crime Heist</option>
+                  <option value="Horror / Psychological">Horror / Psychological</option>
+                </select>
+              </div>
+
+              <!-- Tone & Mood -->
+              <div class="form-field">
+                <label for="selectTone" class="field-label">Tone & Mood</label>
+                <select id="selectTone" class="cinema-select">
+                  <option value="Atmospheric & Haunting">Atmospheric & Haunting</option>
+                  <option value="Gritty & Grounded">Gritty & Grounded</option>
+                  <option value="Surreal & Dreamlike">Surreal & Dreamlike</option>
+                  <option value="High-Tension & Claustrophobic">High-Tension & Claustrophobic</option>
+                  <option value="Melancholic & Poetic">Melancholic & Poetic</option>
+                  <option value="Epic & Sweeping">Epic & Sweeping</option>
+                  <option value="Dark Satirical">Dark Satirical</option>
+                </select>
+              </div>
+
+              <!-- Target Runtime -->
+              <div class="form-field">
+                <label for="selectRuntime" class="field-label">Target Runtime</label>
+                <select id="selectRuntime" class="cinema-select">
+                  <option value="20">20 Min (Short Film)</option>
+                  <option value="50">50 Min (Prestige Pilot)</option>
+                  <option value="90">90 Min (Feature Film)</option>
+                  <option value="110" selected>110 Min (Standard Feature)</option>
+                  <option value="140">140 Min (Epic Feature)</option>
+                </select>
+              </div>
+
+              <!-- Target Audience -->
+              <div class="form-field">
+                <label for="selectAudience" class="field-label">Target Audience</label>
+                <select id="selectAudience" class="cinema-select">
+                  <option value="General Cinema Audience">General Cinema Audience</option>
+                  <option value="Mature / R-Rated Filmgoers">Mature / R-Rated Filmgoers</option>
+                  <option value="Young Adults & College">Young Adults & College</option>
+                  <option value="Arthouse / Film Festival Circuit">Arthouse / Film Festival Circuit</option>
+                </select>
+              </div>
+
+              <!-- Language -->
+              <div class="form-field">
+                <label for="selectLanguage" class="field-label">Language</label>
+                <select id="selectLanguage" class="cinema-select">
+                  <option value="English" selected>English</option>
+                  <option value="Spanish">Spanish</option>
+                  <option value="French">French</option>
+                  <option value="German">German</option>
+                  <option value="Japanese">Japanese</option>
+                  <option value="Korean">Korean</option>
+                  <option value="Italian">Italian</option>
+                  <option value="Hindi">Hindi</option>
+                </select>
+              </div>
+
+              <!-- Creative Constraints -->
+              <div class="form-field span-full">
+                <label for="inputConstraints" class="field-label">
+                  <span>Director's Creative Constraints & Directives</span>
+                  <span class="subtext-optional">(Optional)</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="inputConstraints" 
+                  class="cinema-input" 
+                  placeholder="e.g. Focus on psychological tension, avoid cheap jump scares, 35mm anamorphic aesthetic, practical effects...">
+              </div>
+            </div>
+
+            <!-- Submit Generation Action -->
+            <div class="action-footer">
+              <div class="api-notice" id="dashboardApiNotice">
+                <!-- Populated dynamically based on Gemini configuration -->
+              </div>
+              <button class="btn btn-gold btn-lg" id="btnGenerateScript">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span>Generate Screenplay & Bible</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Projects Section -->
+          <div class="section-container">
+            <div class="section-header-row">
+              <div class="section-title-wrap">
+                <h2 class="section-title">Recent Studio Screenplays</h2>
+                <p class="section-desc">Locally stored production packages ready for editing or export.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btnViewAllProjects">View All Projects</button>
+            </div>
+            
+            <div class="projects-grid" id="recentProjectsGrid">
+              <!-- Rendered via JavaScript -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 2: SCREENPLAY STUDIO WORKSPACE           -->
+        <!-- ============================================== -->
+        <section class="view-pane" id="viewStudio">
+          <!-- Studio Script Header & Metadata Hero -->
+          <div class="studio-header-card">
+            <div class="script-title-row">
+              <div class="script-headline-group">
+                <div class="badge-row">
+                  <span class="meta-badge genre-badge" id="studioBadgeGenre">Genre</span>
+                  <span class="meta-badge tone-badge" id="studioBadgeTone">Tone</span>
+                  <span class="meta-badge runtime-badge" id="studioBadgeRuntime">110 Min</span>
+                  <span class="meta-badge language-badge" id="studioBadgeLanguage">English</span>
+                </div>
+                <h1 class="studio-script-title" id="studioScriptTitle" contenteditable="false">Project Title</h1>
+                <p class="studio-script-logline" id="studioScriptLogline" contenteditable="false">Logline goes here...</p>
+                <div class="theme-line" id="studioScriptTheme"><strong>Thematic Core:</strong> Theme goes here...</div>
+              </div>
+
+              <!-- Studio Action Controls -->
+              <div class="studio-top-controls">
+                <button class="btn btn-secondary btn-sm" id="btnToggleEditMode" title="Toggle Inline Editing Mode">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  <span id="editModeLabel">Edit Mode</span>
+                </button>
+                <button class="btn btn-secondary btn-sm" id="btnCopyEntireScript" title="Copy Screenplay to Clipboard">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span>Copy Section</span>
+                </button>
+                <button class="btn btn-gold btn-sm" id="btnStudioExport">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                  <span>Export TXT</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Studio Section Tabs -->
+            <div class="studio-tabs-bar" role="tablist">
+              <button class="studio-tab active" data-tab="overview" role="tab">
+                <span class="tab-icon">📋</span> Overview & Bible
+              </button>
+              <button class="studio-tab" data-tab="structure" role="tab">
+                <span class="tab-icon">📐</span> Three-Act Structure
+              </button>
+              <button class="studio-tab" data-tab="characters" role="tab">
+                <span class="tab-icon">👥</span> Characters
+              </button>
+              <button class="studio-tab" data-tab="scenes" role="tab">
+                <span class="tab-icon">📜</span> Screenplay Scenes
+              </button>
+              <button class="studio-tab" data-tab="shots" role="tab">
+                <span class="tab-icon">🎥</span> Shot Lists
+              </button>
+              <button class="studio-tab" data-tab="prompts" role="tab">
+                <span class="tab-icon">🎨</span> AI Prompts
+              </button>
+              <button class="studio-tab" data-tab="audio" role="tab">
+                <span class="tab-icon">🔊</span> Sound Design
+              </button>
+            </div>
+          </div>
+
+          <!-- STUDIO CONTENT AREA (DYNAMIC TAB CONTENT) -->
+          <div class="studio-tab-content-wrapper">
+            
+            <!-- TAB 1: OVERVIEW & PRODUCTION SUMMARY -->
+            <div class="tab-pane active" id="tabOverview">
+              <div class="overview-grid">
+                <!-- Visual Style & Directorial Statement -->
+                <div class="studio-card">
+                  <div class="card-section-title">
+                    <span class="gold-icon-box">🎨</span>
+                    <h3>Visual Directorial Aesthetic</h3>
+                  </div>
+                  <p class="aesthetic-statement" id="overviewVisualStyle">Loading aesthetic statement...</p>
+                </div>
+
+                <!-- Curated Color Palette -->
+                <div class="studio-card">
+                  <div class="card-section-title">
+                    <span class="gold-icon-box">🌈</span>
+                    <h3>Curated Production Color Palette</h3>
+                  </div>
+                  <div class="color-palette-grid" id="overviewColorPalette">
+                    <!-- Populated via JS -->
+                  </div>
+                </div>
+
+                <!-- Production Hurdles -->
+                <div class="studio-card">
+                  <div class="card-section-title">
+                    <span class="gold-icon-box">⚡</span>
+                    <h3>Technical & Budget Challenges</h3>
+                  </div>
+                  <ul class="challenges-list" id="overviewChallenges">
+                    <!-- Populated via JS -->
+                  </ul>
+                </div>
+
+                <!-- Key Creative Decisions -->
+                <div class="studio-card">
+                  <div class="card-section-title">
+                    <span class="gold-icon-box">🎬</span>
+                    <h3>Key Creative Decisions</h3>
+                  </div>
+                  <ul class="decisions-list" id="overviewDecisions">
+                    <!-- Populated via JS -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: THREE-ACT DRAMATIC STRUCTURE -->
+            <div class="tab-pane" id="tabStructure">
+              <div class="acts-columns-grid" id="structureActsContainer">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+
+            <!-- TAB 3: CHARACTER DOSSIERS -->
+            <div class="tab-pane" id="tabCharacters">
+              <div class="characters-grid" id="charactersContainer">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+
+            <!-- TAB 4: SCREENPLAY SCENES -->
+            <div class="tab-pane" id="tabScenes">
+              <div class="scenes-toolbar">
+                <div class="scenes-count-info" id="scenesCountInfo">Scenes Loaded</div>
+                <div class="scenes-toolbar-actions">
+                  <button class="btn btn-secondary btn-sm" id="btnToggleAllScenes">Expand/Collapse All</button>
+                  <button class="btn btn-gold btn-sm" id="btnTriggerAddScenes">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>Expand / Add Scenes</span>
+                  </button>
+                </div>
+              </div>
+              <div class="screenplay-paper-container" id="screenplayScenesContainer">
+                <!-- Formatted Hollywood Script rendered via JS -->
+              </div>
+            </div>
+
+            <!-- TAB 5: DIRECTOR'S SHOT LISTS -->
+            <div class="tab-pane" id="tabShots">
+              <div class="scenes-toolbar">
+                <div class="scenes-count-info" id="shotsCountInfo">Director Camera Setups</div>
+                <div class="scenes-toolbar-actions">
+                  <button class="btn btn-gold btn-sm" id="btnTriggerAddShotList">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    <span>Generate Shots for Scene</span>
+                  </button>
+                </div>
+              </div>
+              <div class="shotlists-container" id="shotListsContainer">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
+
+            <!-- TAB 6: AI PROMPTS (MIDJOURNEY & RUNWAY) -->
+            <div class="tab-pane" id="tabPrompts">
+              <div class="prompts-subtabs-row">
+                <button class="subtab-btn active" id="subtabMidjourney">Midjourney Image Prompts</button>
+                <button class="subtab-btn" id="subtabRunway">Runway Video Prompts</button>
+              </div>
+
+              <!-- Midjourney Container -->
+              <div class="prompts-subpane active" id="paneMidjourney">
+                <div class="prompts-grid" id="imagePromptsGrid">
+                  <!-- Rendered via JS -->
+                </div>
+              </div>
+
+              <!-- Runway Container -->
+              <div class="prompts-subpane" id="paneRunway">
+                <div class="prompts-grid" id="videoPromptsGrid">
+                  <!-- Rendered via JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 7: SOUND DESIGN -->
+            <div class="tab-pane" id="tabAudio">
+              <div class="audio-cards-grid" id="audioDesignGrid">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 3: MY PROJECTS CATALOG                   -->
+        <!-- ============================================== -->
+        <section class="view-pane" id="viewProjects">
+          <div class="projects-catalog-header">
+            <div>
+              <h1 class="page-title">My Screenplay Projects</h1>
+              <p class="page-desc">Manage, reopen, duplicate, or export your saved film bibles.</p>
+            </div>
+            <div class="catalog-actions">
+              <button class="btn btn-secondary btn-sm" id="btnCatalogLoadSample">Load Sample Bible</button>
+              <button class="btn btn-gold btn-sm" id="btnCatalogNew">+ Create New Script</button>
+            </div>
+          </div>
+
+          <div class="projects-filter-bar">
+            <input type="text" id="inputProjectSearch" class="cinema-input search-input" placeholder="Search by title, genre, or premise...">
+          </div>
+
+          <div class="projects-full-grid" id="projectsFullCatalogGrid">
+            <!-- Full projects list rendered via JS -->
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 4: SETTINGS & SYSTEM STATUS              -->
+        <!-- ============================================== -->
+        <section class="view-pane" id="viewSettings">
+          <div class="page-header">
+            <h1 class="page-title">Studio Settings & Engine Status</h1>
+            <p class="page-desc">Inspect Google Gemini integration, active model configuration, and local cache storage.</p>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Gemini Engine Status Card -->
+            <div class="studio-card">
+              <div class="card-section-title">
+                <span class="gold-icon-box">🤖</span>
+                <h3>Google Gemini Engine</h3>
+              </div>
+              <div class="settings-status-box" id="settingsGeminiBox">
+                <div class="status-row">
+                  <span class="status-key">Backend Connection:</span>
+                  <span class="status-val" id="settingsBackendVal">Checking...</span>
+                </div>
+                <div class="status-row">
+                  <span class="status-key">Active Model:</span>
+                  <span class="status-val gold-accent" id="settingsModelVal">gemini-2.5-flash</span>
+                </div>
+                <div class="status-row">
+                  <span class="status-key">Gemini API Key:</span>
+                  <span class="status-val" id="settingsApiKeyStatus">Checking...</span>
+                </div>
+                <div class="status-row">
+                  <span class="status-key">Structured JSON Schema:</span>
+                  <span class="status-val tag-success">Strict Mode Active</span>
+                </div>
+              </div>
+
+              <div class="key-help-box">
+                <h4>How to configure your Gemini API Key:</h4>
+                <p>1. Open the file <code>server/.env</code> in your project root.</p>
+                <p>2. Set <code>GEMINI_API_KEY=your_actual_key_here</code> (obtainable free from <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">Google AI Studio</a>).</p>
+                <p>3. Restart the server. The key remains secure on the backend and is never exposed to browser clients.</p>
+              </div>
+
+              <button class="btn btn-secondary btn-sm" id="btnRefreshHealth">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                <span>Re-check Engine Health</span>
+              </button>
+            </div>
+
+            <!-- Local Storage & Project Cache Card -->
+            <div class="studio-card">
+              <div class="card-section-title">
+                <span class="gold-icon-box">💾</span>
+                <h3>Local Project Storage</h3>
+              </div>
+              <p class="settings-desc">
+                CineDirector AI automatically persists your screenplay projects, edits, and shot lists directly in your browser's LocalStorage.
+              </p>
+              <div class="status-row">
+                <span class="status-key">Total Stored Projects:</span>
+                <span class="status-val" id="settingsTotalProjectsVal">1</span>
+              </div>
+              <div class="storage-actions-row">
+                <button class="btn btn-secondary btn-sm" id="btnExportAllProjectsJson">
+                  Export All (JSON Backup)
+                </button>
+                <button class="btn btn-danger btn-sm" id="btnClearCache">
+                  Reset Storage to Defaults
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: CINEMATIC MULTI-STAGE LOADING OVERLAY    -->
+  <!-- ============================================== -->
+  <div class="loading-modal-overlay" id="loadingModal" aria-hidden="true" role="dialog">
+    <div class="loading-modal-card">
+      <div class="film-reel-spinner">
+        <div class="pulse-ring"></div>
+        <div class="reel-center">🎬</div>
+      </div>
+
+      <h2 class="loading-title">Directing Screenplay Bible...</h2>
+      <p class="loading-stage" id="loadingStageMessage">Analyzing premise and thematic stakes...</p>
+      
+      <!-- Progress Bar -->
+      <div class="cinematic-progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      
+      <p class="loading-disclaimer">
+        Gemini 2.5 Flash is architecting your three-act structure, characters, scenes, director shots, and prompts. This takes approximately 10–25 seconds.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: RENAME PROJECT                          -->
+  <!-- ============================================== -->
+  <div class="generic-modal-overlay" id="renameModal" aria-hidden="true" role="dialog">
+    <div class="generic-modal-card">
+      <h3 class="modal-title">Rename Screenplay</h3>
+      <div class="form-field">
+        <label for="inputRenameTitle" class="field-label">Project Title</label>
+        <input type="text" id="inputRenameTitle" class="cinema-input" maxlength="150">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary btn-sm" id="btnCancelRename">Cancel</button>
+        <button class="btn btn-gold btn-sm" id="btnConfirmRename">Save Title</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: DELETE CONFIRMATION                     -->
+  <!-- ============================================== -->
+  <div class="generic-modal-overlay" id="deleteModal" aria-hidden="true" role="dialog">
+    <div class="generic-modal-card">
+      <h3 class="modal-title">Delete Screenplay?</h3>
+      <p class="modal-body-text">Are you sure you want to permanently delete <strong id="deleteProjectTargetTitle">this screenplay</strong>? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary btn-sm" id="btnCancelDelete">Cancel</button>
+        <button class="btn btn-danger btn-sm" id="btnConfirmDelete">Delete Script</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: EXPAND SCENES DIALOG                    -->
+  <!-- ============================================== -->
+  <div class="generic-modal-overlay" id="expandScenesModal" aria-hidden="true" role="dialog">
+    <div class="generic-modal-card modal-lg">
+      <h3 class="modal-title">Add / Expand Screenplay Scenes</h3>
+      <p class="modal-body-text">Direct the AI to write the next sequence or a specific pivotal scene.</p>
+      <div class="form-field">
+        <label for="inputSceneRequest" class="field-label">Scene Instructions / Dramatic Focus</label>
+        <textarea id="inputSceneRequest" class="cinema-textarea" rows="3" placeholder="e.g. Write Act 2 midpoint scene where Elena and Dr. Sterling evade the surveillance vans in the subway tunnels..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary btn-sm" id="btnCancelExpandScenes">Cancel</button>
+        <button class="btn btn-gold btn-sm" id="btnConfirmExpandScenes">Generate New Scenes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TOAST NOTIFICATION BANNER                      -->
+  <!-- ============================================== -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Core Modules -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
